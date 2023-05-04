@@ -1,0 +1,66 @@
+
+/*
+# discussion about workspace
+
+resource "aws_instance" "web_server" {
+  ami                    = "ami-0c9978668f8d55984"  #for rhel9 image
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.my-subnet-public.id
+  vpc_security_group_ids = [aws_security_group.my_sg.id]
+  tags = {
+    Name = "web_server"
+  }
+  key_name = "terraform"
+}
+
+
+
+# demonastate count syntax during resource launchx
+
+
+resource "aws_instance" "web_server" {
+  ami  = "ami-0c9978668f8d55984"  #for rhel9 image
+  instance_type   = "t2.micro"
+  subnet_id              = aws_subnet.my-subnet-public.id
+  vpc_security_group_ids = [aws_security_group.my_sg.id]
+  count = 3
+  tags = {
+    Name = "web-server-${count.index}"
+  }
+key_name = "terraform"
+  
+}
+
+resource "null_resource" "null" {
+  provisioner "local-exec" {
+    command = "echo 'check null resources' > null.txt"
+    
+  }
+  
+}
+
+*/
+
+# how to launch resource multiple aws region 
+resource "aws_instance" "web_server" {
+  ami                    = "ami-0c9978668f8d55984"  #for rhel9 image
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.my-subnet-public.id
+  vpc_security_group_ids = [aws_security_group.my_sg.id]
+  tags = {
+    Name = "web_NV"
+  }
+  key_name = "terraform"
+}
+
+resource "aws_instance" "web_server-cali" {
+  ami                    = "ami-0e16c3bc75f23e32b"  #for rhel9 image for california
+  instance_type          = "t2.micro"
+  #subnet_id              = aws_subnet.my-subnet-public.id
+  #vpc_security_group_ids = [aws_security_group.my_sg.id]
+  tags = {
+    Name = "web_cali"
+  }
+  provider = aws.california       // for 2nd region
+  #key_name = "terraform"
+}
